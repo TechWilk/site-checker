@@ -35,5 +35,5 @@ if (empty($_GET['site'])) {
 
     $results = $checks->run($uri);
 
-    echo templateReport($results);
+    echo templateReport($uri, $results);
 }

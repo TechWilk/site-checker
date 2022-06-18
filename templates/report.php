@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/layout.php';
 
-function templateReport($results) {
+function templateReport($uri, $results) {
 
     $textResults = json_encode($results);
 
@@ -15,26 +15,31 @@ function templateReport($results) {
         $checksHtml = '';
         foreach ($checks as $name => $tasks) {
 
+            $passed = true;
             $tasksHtml = '';
             foreach ($tasks as $taskName => $result) {
+                $passed = $result === false ? false : $passed;
                 $tasksHtml .= renderTaskRow($taskName, $result);
             }
+
+            $boxOpen = $passed ? '' : 'open';
+            $statusText = $passed ? 'PASSED' : 'FAILED';
             $checksHtml .= <<<CHECK
-                <tr>
-                    <td colspan="2">$name</td>
-                </tr>
-                $tasksHtml
+                <details $boxOpen>
+                    <summary>$name ($statusText)</summary>
+                    <table>$tasksHtml</table>
+                </details>
                 CHECK;
         }
 
 
         $resultsHtml[] = <<<RESULT
             <h2>$type</h2>
-            <table>$checksHtml</table>
+            $checksHtml
             RESULT;
     }
 
-    $content = implode('', $resultsHtml);
+    $content = '<p>Report for <code>'.htmlentities((string)$uri).'</code></p>' . implode('', $resultsHtml);
 
     return templateLayout('Report', $content);
 }
