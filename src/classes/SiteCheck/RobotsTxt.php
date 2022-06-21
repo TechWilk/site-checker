@@ -24,7 +24,7 @@ class RobotsTxt implements SiteCheck
 
         return [
             'file_exists' => in_array($response->getStatusCode(), [200]),
-            'text_mime_type' => in_array($response->getHeaderLine('Content-Type'), ['text/plain', 'text/plain;charset=UTF-8']),
+            'text_mime_type' => in_array($response->getHeaderLine('Content-Type'), ['text/plain', 'text/plain; charset=UTF-8', 'text/plain;charset=utf-8', 'text/plain; charset=utf-8']),
         ];
     }
 }

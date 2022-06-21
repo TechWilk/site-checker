@@ -16,7 +16,7 @@ class SitemapXml implements SiteCheck
     use ParseTextFile;
 
     const SITEMAP_NAMESPACE = 'http://www.sitemaps.org/schemas/sitemap/0.9';
-    const XML_MIME_TYPES = ['application/xml', 'application/xml;charset=UTF-8'];
+    const XML_MIME_TYPES = ['application/xml', 'application/xml;charset=UTF-8', 'application/xml; charset=UTF-8', 'application/xml;charset=utf-8', 'application/xml; charset=utf-8'];
 
     protected $tests = [
         'file_exists' => null,
