@@ -34,7 +34,6 @@ class FileExtention implements UrlCheck
     public function run(Queue $queue, Http $uri, $response): array
     {
         $extention = pathinfo($uri->getPath(), PATHINFO_EXTENSION);
-        var_dump($extention);
 
         if (empty($extention)) {
             return [
