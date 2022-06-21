@@ -23,11 +23,17 @@ function templateReport($uri, $results) {
             }
 
             $boxOpen = $passed ? '' : 'open';
-            $statusText = $passed ? 'PASSED' : 'FAILED';
+            $statusText = $passed ? 'PASSED' : '<mark>FAILED</mark>';
             $checksHtml .= <<<CHECK
                 <details $boxOpen>
                     <summary>$name ($statusText)</summary>
-                    <table>$tasksHtml</table>
+                    <table>
+                        <tr>
+                            <th>Check</th>
+                            <th>Status</th>
+                        </tr>
+                        $tasksHtml
+                    </table>
                 </details>
                 CHECK;
         }
@@ -39,7 +45,14 @@ function templateReport($uri, $results) {
             RESULT;
     }
 
-    $content = '<p>Report for <code>'.htmlentities((string)$uri).'</code></p>' . implode('', $resultsHtml);
+    $uriString = htmlentities((string)$uri);
+    $resultsHtmlString = implode('', $resultsHtml);
+
+    $content = <<<HTML
+        <p>Report for <code>$uriString</code></p>
+        <a href="/">check another site</a>
+        $resultsHtmlString
+        HTML;
 
     return templateLayout('Report', $content);
 }
@@ -51,7 +64,7 @@ function renderTaskRow($taskName, $result) {
         : (
             $result === null
             ? 'skipped'
-            : '<strong>FAILED</strong>'
+            : 'FAILED'
         )
     );
 
