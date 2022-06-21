@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/layout.php';
 
-function templateCheck(string $site) {
+function templateCheck(string $site, string $message) {
 
     $site = htmlentities($site, ENT_QUOTES);
+    $message = htmlentities($message, ENT_QUOTES);
 
     $content = <<<HTML
         <p>
@@ -26,6 +27,7 @@ function templateCheck(string $site) {
                 Site
                 <input type="text" name="site" value="$site"/>
             </label>
+            <p>$message</p>
             <input type="submit" value="Run checks" />
         </form>
         <h2>Why does this exist?</h2>

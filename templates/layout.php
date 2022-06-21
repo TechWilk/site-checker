@@ -2,9 +2,14 @@
 
 declare(strict_types=1);
 
-function templateLayout($title, $content) {
+function templateLayout(string $title, string $content, ?int $reload = 0) {
 
     $title = htmlentities($title);
+
+    $reloadHtml = '';
+    if ($reload > 0) {
+        $reloadHtml = '<meta http-equiv="refresh" content="'.$reload.'" />';
+    }
 
     $layout = <<<HTML
         <!DOCTYPE html>
@@ -15,6 +20,7 @@ function templateLayout($title, $content) {
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
                 <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+                $reloadHtml
             </head>
             <body>
                 <header>
